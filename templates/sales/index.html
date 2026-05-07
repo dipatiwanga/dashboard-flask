@@ -1,0 +1,86 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col">
+        <h5 class="fw-semibold mb-0">Sales Transactions</h5>
+        <p class="text-muted small mb-0">Semua data transaksi penjualan</p>
+    </div>
+    <div class="col-auto">
+        <span class="badge bg-primary-soft text-primary fs-6 px-3 py-2">
+            {{ "{:,}".format(sales|length) }} records
+        </span>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-transparent border-0 pt-3">
+        <!-- Search box -->
+        <div class="row g-2 align-items-center">
+            <div class="col-12 col-md-4">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-light border-end-0">
+                        <i class="bi bi-search text-muted"></i>
+                    </span>
+                    <input type="text" id="tableSearch" class="form-control border-start-0 bg-light"
+                           placeholder="Search product, category, region...">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="salesTable">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Date</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-end">Total Price</th>
+                        <th class="text-end pe-4">Region</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in sales %}
+                    <tr>
+                        <td class="ps-4 text-muted small">
+                            {{ row.sale_date.strftime('%d %b %Y') }}
+                        </td>
+                        <td class="fw-medium">{{ row.product }}</td>
+                        <td>
+                            <span class="badge category-badge">
+                                {{ row.category }}
+                            </span>
+                        </td>
+                        <td class="text-center">{{ "{:,}".format(row.quantity) }}</td>
+                        <td class="text-end fw-medium">
+                            Rp {{ "{:,.0f}".format(row.total_price).replace(',', '.') }}
+                        </td>
+                        <td class="text-end pe-4">
+                            <span class="badge region-badge">
+                                <i class="bi bi-geo-alt-fill me-1"></i>{{ row.region }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+// Simple client-side search
+document.getElementById('tableSearch').addEventListener('input', function () {
+    const query = this.value.toLowerCase();
+    const rows  = document.querySelectorAll('#salesTable tbody tr');
+
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+    });
+});
+</script>
+{% endblock %}

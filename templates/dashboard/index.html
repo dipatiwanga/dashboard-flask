@@ -1,0 +1,175 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<!-- ── KPI Cards ──────────────────────────────────────────── -->
+<div class="row g-4 mb-4">
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card kpi-card border-0 shadow-sm h-100">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="kpi-icon bg-primary-soft text-primary">
+                    <i class="bi bi-currency-dollar fs-4"></i>
+                </div>
+                <div>
+                    <div class="kpi-label">Total Revenue</div>
+                    <div class="kpi-value">Rp {{ "{:,.0f}".format(total_revenue).replace(',', '.') }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card kpi-card border-0 shadow-sm h-100">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="kpi-icon bg-success-soft text-success">
+                    <i class="bi bi-receipt fs-4"></i>
+                </div>
+                <div>
+                    <div class="kpi-label">Total Transactions</div>
+                    <div class="kpi-value">{{ "{:,}".format(total_transactions) }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card kpi-card border-0 shadow-sm h-100">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="kpi-icon bg-warning-soft text-warning">
+                    <i class="bi bi-box-seam fs-4"></i>
+                </div>
+                <div>
+                    <div class="kpi-label">Units Sold</div>
+                    <div class="kpi-value">{{ "{:,}".format(total_units) }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card kpi-card border-0 shadow-sm h-100">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="kpi-icon bg-info-soft text-info">
+                    <i class="bi bi-graph-up-arrow fs-4"></i>
+                </div>
+                <div>
+                    <div class="kpi-label">Avg. Transaction</div>
+                    <div class="kpi-value">Rp {{ "{:,.0f}".format(avg_transaction).replace(',', '.') }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ── Charts Row 1: Monthly Revenue + Category ──────────── -->
+<div class="row g-4 mb-4">
+
+    <!-- Monthly Revenue Line Chart -->
+    <div class="col-12 col-lg-8">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-transparent border-0 pt-3 pb-0 d-flex justify-content-between align-items-center">
+                <h6 class="card-title mb-0 fw-semibold">
+                    <i class="bi bi-graph-up me-2 text-primary"></i>Monthly Revenue 2025
+                </h6>
+            </div>
+            <div class="card-body">
+                <canvas id="chartMonthly" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sales by Category Doughnut -->
+    <div class="col-12 col-lg-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-transparent border-0 pt-3 pb-0">
+                <h6 class="card-title mb-0 fw-semibold">
+                    <i class="bi bi-pie-chart me-2 text-success"></i>Revenue by Category
+                </h6>
+            </div>
+            <div class="card-body d-flex align-items-center justify-content-center">
+                <canvas id="chartCategory" style="max-height:260px"></canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ── Charts Row 2: Region + Top Products ───────────────── -->
+<div class="row g-4 mb-4">
+
+    <!-- Sales by Region -->
+    <div class="col-12 col-lg-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-transparent border-0 pt-3 pb-0">
+                <h6 class="card-title mb-0 fw-semibold">
+                    <i class="bi bi-geo-alt me-2 text-warning"></i>Revenue by Region
+                </h6>
+            </div>
+            <div class="card-body">
+                <canvas id="chartRegion" height="160"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top 5 Products -->
+    <div class="col-12 col-lg-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-transparent border-0 pt-3 pb-0">
+                <h6 class="card-title mb-0 fw-semibold">
+                    <i class="bi bi-trophy me-2 text-danger"></i>Top 5 Products
+                </h6>
+            </div>
+            <div class="card-body">
+                <canvas id="chartTopProducts" height="160"></canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ── Top Products Table ─────────────────────────────────── -->
+<div class="row g-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent border-0 pt-3 pb-0">
+                <h6 class="card-title mb-0 fw-semibold">
+                    <i class="bi bi-list-ol me-2 text-secondary"></i>Top Products Detail
+                </h6>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">#</th>
+                                <th>Product</th>
+                                <th class="text-end">Revenue</th>
+                                <th class="text-end pe-4">Units Sold</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in top_products %}
+                            <tr>
+                                <td class="ps-4 text-muted">{{ loop.index }}</td>
+                                <td class="fw-medium">{{ product.product }}</td>
+                                <td class="text-end">Rp {{ "{:,.0f}".format(product.revenue).replace(',', '.') }}</td>
+                                <td class="text-end pe-4 text-muted">{{ "{:,}".format(product.units_sold) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart initialization script -->
+<script>
+// Inisialisasi semua chart setelah DOM siap
+document.addEventListener('DOMContentLoaded', () => {
+    initDashboardCharts();
+});
+</script>
+{% endblock %}
