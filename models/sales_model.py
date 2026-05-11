@@ -175,11 +175,11 @@ class SalesModel:
             from datetime import datetime, timedelta
             base_date = datetime.now()
             return [
-                {'id': 1, 'product': 'Laptop Pro', 'category': 'Electronics', 'quantity': 2, 'total_price': 2800000, 'sale_date': (base_date - timedelta(days=1)).strftime('%Y-%m-%d'), 'region': 'Jakarta'},
-                {'id': 2, 'product': 'Smartphone X', 'category': 'Electronics', 'quantity': 3, 'total_price': 2100000, 'sale_date': (base_date - timedelta(days=2)).strftime('%Y-%m-%d'), 'region': 'Surabaya'},
-                {'id': 3, 'product': 'Wireless Headphones', 'category': 'Electronics', 'quantity': 5, 'total_price': 1500000, 'sale_date': (base_date - timedelta(days=3)).strftime('%Y-%m-%d'), 'region': 'Bandung'},
-                {'id': 4, 'product': 'T-Shirt', 'category': 'Clothing', 'quantity': 10, 'total_price': 500000, 'sale_date': (base_date - timedelta(days=4)).strftime('%Y-%m-%d'), 'region': 'Jakarta'},
-                {'id': 5, 'product': 'Jeans', 'category': 'Clothing', 'quantity': 5, 'total_price': 750000, 'sale_date': (base_date - timedelta(days=5)).strftime('%Y-%m-%d'), 'region': 'Medan'},
+                {'id': 1, 'product': 'Laptop Pro', 'category': 'Electronics', 'quantity': 2, 'total_price': 2800000, 'sale_date': (base_date - timedelta(days=1)), 'region': 'Jakarta'},
+                {'id': 2, 'product': 'Smartphone X', 'category': 'Electronics', 'quantity': 3, 'total_price': 2100000, 'sale_date': (base_date - timedelta(days=2)), 'region': 'Surabaya'},
+                {'id': 3, 'product': 'Wireless Headphones', 'category': 'Electronics', 'quantity': 5, 'total_price': 1500000, 'sale_date': (base_date - timedelta(days=3)), 'region': 'Bandung'},
+                {'id': 4, 'product': 'T-Shirt', 'category': 'Clothing', 'quantity': 10, 'total_price': 500000, 'sale_date': (base_date - timedelta(days=4)), 'region': 'Jakarta'},
+                {'id': 5, 'product': 'Jeans', 'category': 'Clothing', 'quantity': 5, 'total_price': 750000, 'sale_date': (base_date - timedelta(days=5)), 'region': 'Medan'},
             ]
         cursor = self.db.cursor(dictionary=True)
         query = """
