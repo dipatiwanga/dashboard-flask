@@ -2,6 +2,8 @@
 
 Business Intelligence Dashboard dengan Flask, MySQL, dan Chart.js.
 
+Note: minor README update to create a pull request branch.
+
 ## Tech Stack
 
 - **Backend**: Flask 3.0 (native, tanpa SQLAlchemy, tanpa Blueprint)
